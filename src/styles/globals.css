@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* ─── Design tokens — DESIGN_SPECIFICATION.md ────────────────────────────── */
+/* Design tokens — ver DESIGN_SPECIFICATION.md */
 
 :root {
   /* Surfaces */
@@ -39,10 +39,7 @@
   --border-strong: #94a3b8;
 }
 
-/* ─── Tailwind theme — exposes tokens as utilities ───────────────────────── */
-
 @theme inline {
-  /* Surfaces → bg-surface-*, text-surface-*, border-surface-* */
   --color-surface-base: var(--surface-base);
   --color-surface-1: var(--surface-1);
   --color-surface-2: var(--surface-2);
@@ -50,13 +47,11 @@
   --color-surface-strong: var(--surface-strong);
   --color-surface-inverse: var(--surface-inverse);
 
-  /* Text → text-text-*, bg-text-* */
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-tertiary: var(--text-tertiary);
   --color-text-disabled: var(--text-disabled);
 
-  /* Accent → bg-accent-*, text-accent-*, border-accent-* */
   --color-accent-primary: var(--accent-primary);
   --color-accent-hover: var(--accent-hover);
   --color-accent-deep: var(--accent-deep);
@@ -64,7 +59,6 @@
   --color-accent-border: var(--accent-border);
   --color-accent-subtle: var(--accent-subtle);
 
-  /* Semantic */
   --color-success: var(--success);
   --color-success-subtle: var(--success-subtle);
   --color-warning: var(--warning);
@@ -72,18 +66,15 @@
   --color-danger: var(--danger);
   --color-danger-subtle: var(--danger-subtle);
 
-  /* Borders → border-border-* */
   --color-border-subtle: var(--border-subtle);
   --color-border-default: var(--border-default);
   --color-border-strong: var(--border-strong);
 
-  /* Fonts — variables injected by next/font in layout.tsx */
+  /* Variables inyectadas por next/font en layout.tsx */
   --font-display: var(--font-syne), sans-serif;
   --font-body: var(--font-plus-jakarta-sans), sans-serif;
   --font-mono: var(--font-jetbrains-mono), monospace;
 }
-
-/* ─── Base ────────────────────────────────────────────────────────────────── */
 
 body {
   background: var(--surface-base);

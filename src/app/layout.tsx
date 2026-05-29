@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Syne, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { AppShell } from "@/components/layout/AppShell";
 import "@/styles/globals.css";
 
 const syne = Syne({
@@ -35,7 +36,9 @@ export default function RootLayout({
       lang="es-MX"
       className={`${syne.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="bg-surface-base text-text-primary min-h-full">{children}</body>
+      <body className="bg-surface-base text-text-primary min-h-full">
+        <AppShell>{children}</AppShell>
+      </body>
     </html>
   );
 }
