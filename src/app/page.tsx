@@ -1,10 +1,10 @@
 import { HeroSection } from "@/components/sections/portada/HeroSection";
 import { EquipoGrid } from "@/components/sections/portada/EquipoGrid";
 import { ContextoAcademico } from "@/components/sections/portada/ContextoAcademico";
-import { portada } from "@/content/portada";
+import { portada } from "@/content/portada/portada";
 import { nav } from "@/content/nav";
-import { equipo } from "@/content/equipo";
-import { academico } from "@/content/academico";
+import { equipo } from "@/content/portada/equipo";
+import { academico } from "@/content/portada/academico";
 
 export default function PortadaPage() {
   return (
