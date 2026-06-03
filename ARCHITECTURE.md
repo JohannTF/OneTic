@@ -40,7 +40,7 @@ src/
  │         └── [seccion]/    # Subdirectorio cuando hay 2+ componentes de una sección
  ├── content/                # Datos del portal
  │    ├── nav.ts             # Navegación global — nunca mover ni duplicar
- │    ├── [seccion].ts       # Archivo plano si la sección tiene 1 solo archivo (ej. indice.ts)
+ │    ├── [seccion].ts       # Archivo plano si la sección tiene 1 solo archivo 
  │    ├── [seccion]/         # Subdirectorio cuando una sección necesita 2+ archivos
  │    │    └── (ej. portada/portada.ts, portada/equipo.ts, portada/academico.ts)
  │    └── prose/             # Prosa larga (.md/.mdx) cuando aplique

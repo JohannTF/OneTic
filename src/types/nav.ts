@@ -7,5 +7,6 @@ export type NavItem = {
 export type NavChapter = {
   id: string;
   label: string;
+  description: string;
   items: NavItem[];
 };

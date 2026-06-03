@@ -2,7 +2,9 @@ import { ChapterCard } from "@/components/sections/indice/ChapterCard";
 import { Eyebrow } from "@/components/ui/typography/Eyebrow";
 import { FadeIn } from "@/components/ui/interactions/FadeIn";
 import { Stagger, StaggerItem } from "@/components/ui/interactions/Stagger";
-import { indiceChapters, totalSections } from "@/content/indice";
+import { nav } from "@/content/nav";
+
+const totalSections = nav.reduce((sum, ch) => sum + ch.items.length, 0);
 
 export const metadata = {
   title: "Índice — OneTic",
@@ -25,7 +27,7 @@ export default function IndicePage() {
 
         <FadeIn delay={0.12}>
           <p className="text-text-secondary max-w-[600px] text-[17px] leading-[1.75]">
-            {indiceChapters.length} capítulos organizan las {totalSections} secciones documentales del
+            {nav.length} capítulos organizan las {totalSections} secciones documentales del
             servicio. Cada capítulo agrupa contenido relacionado bajo un mismo marco conceptual.
           </p>
         </FadeIn>
@@ -33,7 +35,7 @@ export default function IndicePage() {
 
       {/* Tarjetas de capítulo */}
       <Stagger className="flex flex-col gap-4">
-        {indiceChapters.map((chapter) => (
+        {nav.map((chapter) => (
           <StaggerItem key={chapter.id}>
             <ChapterCard chapter={chapter} />
           </StaggerItem>

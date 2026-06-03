@@ -28,6 +28,7 @@ Lo único que se mantiene firme es el **sistema visual** ([DESIGN_SPECIFICATION.
 
 - Orden: externos → internos (`@/`) → relativos, separados por línea en blanco.
 - Usar el alias `@/` para todo lo interno.
+- **Sin módulos puente.** Si un archivo solo re-exporta lo que otro ya contiene sin añadir lógica propia, elimínalo e importa directamente de la fuente. Un intermediario sin valor propio suma indirección sin beneficio.
 
 ---
 

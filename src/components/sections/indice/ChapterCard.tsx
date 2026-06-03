@@ -2,10 +2,10 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Eyebrow } from "@/components/ui/typography/Eyebrow";
 import { Badge } from "@/components/ui/typography/Badge";
-import type { IndiceChapter } from "@/types/indice";
+import type { NavChapter } from "@/types/nav";
 
 type ChapterCardProps = {
-  chapter: IndiceChapter;
+  chapter: NavChapter;
 };
 
 export function ChapterCard({ chapter }: ChapterCardProps) {
