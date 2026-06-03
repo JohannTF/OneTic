@@ -30,7 +30,11 @@ src/
  │    │    ├── images/       # Avatar, Image, etc. (contenido visual/media)
  │    │    ├── interactions/ # FadeIn, Reveal, Stagger, ScaleIn (motion/react)
  │    │    └── [más]/        # feedback/, forms/, layout/ según crecimiento
- │    ├── layout/            # Shell (Sidebar, TopBar, Logo, AppShell)
+ │    ├── layout/            # Shell
+ │    │    ├── sidebar/      # Sidebar + sub-componentes
+ │    │    ├── AppShell.tsx
+ │    │    ├── TopBar.tsx
+ │    │    └── Logo.tsx
  │    └── sections/          # Patrones por sección
  │         ├── shared/       # Reusables entre secciones (SectionHeader...)
  │         └── [seccion]/    # Subdirectorio cuando hay 2+ componentes de una sección
@@ -49,9 +53,13 @@ src/
 public/images/               # Assets por rol (authors/, diagrams/, ui/)
 ```
 
-**Regla de subdivisión — `sections/`:** cuando una sección tiene **2+ componentes propios**, se mueve a su subdirectorio (`sections/[seccion]/`). Con uno solo, queda en archivo plano.
+**Regla de subdivisión (universal):** aplica en cualquier directorio de `components/` o `content/`. Si un módulo acumula **2+ sub-componentes o sub-archivos propios**, se convierte en directorio (`[nombre]/`). Con uno solo, permanece como archivo plano.
 
-**Regla de subdivisión — `content/`:** la misma lógica aplica. Un archivo plano si la sección lo cubre con un solo `.ts`; subdirectorio `content/[seccion]/` cuando necesita **2+ archivos** (ej. `portada/` tiene `portada.ts`, `equipo.ts`, `academico.ts`). `nav.ts` siempre queda en la raíz de `content/` por ser global.
+- `components/layout/sidebar/` — ejemplo: `Sidebar` tiene `SidebarChapter`, `SidebarLink` y `ToggleButton`.
+- `sections/[seccion]/` — cuando una sección produce 2+ componentes.
+- `content/[seccion]/` — cuando una sección necesita 2+ archivos de datos (ej. `portada/` tiene `portada.ts`, `equipo.ts`, `academico.ts`).
+
+`nav.ts` es la excepción: siempre queda en la raíz de `content/` por ser fuente global de navegación.
 
 ## Path alias
 
