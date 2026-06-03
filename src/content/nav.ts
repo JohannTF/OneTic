@@ -1,4 +1,9 @@
-import type { NavChapter } from "@/types/nav";
+import type { NavItem, NavChapter } from "@/types/nav";
+
+export const rootLinks: NavItem[] = [
+  { id: "portada", label: "Portada", href: "/" },
+  { id: "indice", label: "Índice", href: "/indice" },
+];
 
 export const nav: NavChapter[] = [
   {

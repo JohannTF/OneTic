@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { Home, List, type LucideIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
 
-import { nav } from "@/content/nav";
+import { nav, rootLinks } from "@/content/nav";
 import { cn } from "@/lib/cn";
 import { Logo } from "@/components/layout/Logo";
 import { SidebarChapter } from "@/components/layout/sidebar/SidebarChapter";
@@ -18,10 +18,10 @@ type SidebarProps = {
   onMobileClose: () => void;
 };
 
-const ROOT_LINKS: Array<{ label: string; href: string; icon: LucideIcon }> = [
-  { label: "Portada", href: "/", icon: Home },
-  { label: "Índice", href: "/indice", icon: List },
-];
+const ROOT_ICONS: Record<string, LucideIcon> = {
+  "/": Home,
+  "/indice": List,
+};
 
 export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: SidebarProps) {
   const pathname = usePathname();
@@ -79,14 +79,14 @@ export function Sidebar({ collapsed, onToggle, mobileOpen, onMobileClose }: Side
           )}
         >
           <ul className="space-y-1">
-            {ROOT_LINKS.map((link) => (
+            {rootLinks.map((link) => (
               <li key={link.href}>
                 <SidebarLink
                   href={link.href}
                   label={link.label}
                   isActive={pathname === link.href}
                   collapsed={collapsed && !mobileOpen}
-                  icon={link.icon}
+                  icon={ROOT_ICONS[link.href]}
                 />
               </li>
             ))}

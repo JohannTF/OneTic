@@ -1,4 +1,4 @@
-import { nav } from "@/content/nav";
+import { nav, rootLinks } from "@/content/nav";
 
 export type BreadcrumbItem = {
   label: string;
@@ -7,10 +7,9 @@ export type BreadcrumbItem = {
 
 const ROOT: BreadcrumbItem = { label: "Documentación", href: "/" };
 
-const STATIC_LABELS: Record<string, string> = {
-  "/": "Portada",
-  "/indice": "Índice",
-};
+const STATIC_LABELS: Record<string, string> = Object.fromEntries(
+  rootLinks.map((link) => [link.href, link.label]),
+);
 
 export function getBreadcrumb(pathname: string): BreadcrumbItem[] {
   const staticLabel = STATIC_LABELS[pathname];
