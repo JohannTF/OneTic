@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { MotionConfig } from "motion/react";
-import { Sidebar } from "@/components/layout/Sidebar";
+import { Sidebar } from "@/components/layout/sidebar/Sidebar";
 import { TopBar } from "@/components/layout/TopBar";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
