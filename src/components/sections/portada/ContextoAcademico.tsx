@@ -29,22 +29,17 @@ export function ContextoAcademico({ data, className }: ContextoAcademicoProps) {
       </Reveal>
 
       <ScaleIn>
-        <div className="border-border-subtle from-surface-base via-surface-base to-accent-subtle/40 relative overflow-hidden rounded-2xl border bg-linear-to-br p-8 backdrop-blur-sm">
-          <div
-            aria-hidden="true"
-            className="bg-accent-muted/20 pointer-events-none absolute -top-16 -right-16 h-48 w-48 rounded-full blur-3xl"
-          />
-
-          <dl className="relative grid grid-cols-1 gap-x-8 gap-y-6 md:grid-cols-2">
+        {/* gap-px + bg-border-subtle crea separadores de 1px entre celdas */}
+        <div className="border-border-subtle overflow-hidden rounded-2xl border bg-border-subtle">
+          <dl className="grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-4">
             {items.map((item) => (
-              <div
-                key={item.label}
-                className="border-accent-border/60 flex flex-col gap-1.5 border-l-2 pl-4"
-              >
+              <div key={item.label} className="flex flex-col gap-2 bg-surface-1 px-8 py-7">
                 <Eyebrow as="dt" tone="muted">
                   {item.label}
                 </Eyebrow>
-                <dd className="text-text-primary text-base font-medium">{item.value}</dd>
+                <dd className="text-text-primary text-[15px] font-medium leading-snug">
+                  {item.value}
+                </dd>
               </div>
             ))}
           </dl>

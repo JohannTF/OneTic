@@ -3,4 +3,5 @@ export type TeamMember = {
   fullName: string;
   shortName: string;
   photo: string;
+  role?: string;
 };

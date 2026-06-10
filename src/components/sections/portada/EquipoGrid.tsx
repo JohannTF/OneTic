@@ -20,23 +20,24 @@ export function EquipoGrid({ members, className }: EquipoGridProps) {
         />
       </Reveal>
 
-      <Stagger className="grid grid-cols-1 gap-5 md:grid-cols-3">
+      <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {members.map((member) => (
           <StaggerItem
             key={member.id}
             as="article"
-            className="group border-border-subtle bg-surface-base/80 hover:border-accent-border relative flex flex-col items-center gap-5 overflow-hidden rounded-2xl border p-8 text-center backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg"
+            className="border-border-subtle bg-surface-1 hover:border-border-default hover:bg-surface-base flex flex-col items-center gap-5 rounded-2xl border px-6 py-8 text-center transition-colors duration-200"
           >
-            <div
-              aria-hidden="true"
-              className="from-accent-subtle pointer-events-none absolute inset-x-0 -top-20 h-40 bg-linear-to-b to-transparent opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
-            />
-            <div className="transition-transform duration-300 ease-out group-hover:scale-[1.04]">
-              <Avatar src={member.photo} alt={member.fullName} size={88} />
+            <Avatar src={member.photo} alt={member.fullName} size={72} />
+            <div className="flex flex-col gap-1.5">
+              <h3 className="font-display text-text-primary text-[15px] font-semibold leading-snug">
+                {member.fullName}
+              </h3>
+              {member.role && (
+                <p className="font-mono text-[10px] font-medium uppercase tracking-[0.07em] text-text-tertiary">
+                  {member.role}
+                </p>
+              )}
             </div>
-            <h3 className="font-display text-text-primary text-lg font-semibold">
-              {member.fullName}
-            </h3>
           </StaggerItem>
         ))}
       </Stagger>

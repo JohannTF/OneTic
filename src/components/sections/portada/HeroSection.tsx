@@ -10,12 +10,12 @@ type HeroSectionProps = {
 
 export function HeroSection({ portada, chapters }: HeroSectionProps) {
   return (
-    <section className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_400px] lg:items-start">
+    <section className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_400px] lg:items-start lg:gap-20">
       <Hero
         eyebrow={portada.eyebrow}
         title={portada.title}
         description={portada.description}
-        stat={portada.stat}
+        stats={portada.stats}
         cta={portada.cta}
       />
       <IndiceDocumental chapters={chapters} />

@@ -8,17 +8,20 @@ export const equipo: TeamMember[] = [
     fullName: "Beltrán Vidal Jarelly Sol",
     shortName: "Jarelly Beltrán",
     photo: PLACEHOLDER_PHOTO,
+    role: "Ingeniería en Computación",
   },
   {
     id: "pardo",
     fullName: "Pardo Gómez Isaac",
     shortName: "Isaac Pardo",
     photo: PLACEHOLDER_PHOTO,
+    role: "Ingeniería en Computación",
   },
   {
     id: "trejo",
     fullName: "Trejo Flores Johann Daniel",
     shortName: "Johann Trejo",
     photo: PLACEHOLDER_PHOTO,
+    role: "Ingeniería en Computación",
   },
 ];

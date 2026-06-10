@@ -1,13 +1,12 @@
+export type PortadaStat = {
+  value: string;
+  label: string;
+};
+
 export type Portada = {
   eyebrow: string;
   title: string;
   description: string;
-  stat: {
-    value: string;
-    label: string;
-  };
-  cta: {
-    label: string;
-    href: string;
-  };
+  stats: PortadaStat[];
+  cta: { label: string; href: string };
 };

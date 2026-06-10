@@ -9,41 +9,59 @@ type IndiceDocumentalProps = {
 };
 
 export function IndiceDocumental({ chapters }: IndiceDocumentalProps) {
+  const totalSections = chapters.reduce((sum, ch) => sum + ch.items.length, 0);
+
   return (
     <FadeIn delay={0.1}>
-      <div className="border-border-subtle bg-surface-base/80 rounded-2xl border p-7 shadow-sm backdrop-blur-xl">
-        <Eyebrow as="h2" tone="muted" size="xs" className="mb-5 block">
-          Índice documental
-        </Eyebrow>
+      <div className="border-border-subtle overflow-hidden rounded-2xl border bg-surface-base shadow-sm">
+        {/* Header */}
+        <div className="border-border-subtle flex items-center justify-between border-b px-5 py-3.5">
+          <Eyebrow as="h2" tone="muted" size="xs">
+            Índice documental
+          </Eyebrow>
+          <span className="font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-text-disabled">
+            {totalSections} secciones
+          </span>
+        </div>
 
-        <ul className="flex flex-col gap-2">
+        {/* Chapter list */}
+        <ul className="divide-y divide-border-subtle/60">
           {chapters.map((chapter) => (
             <li key={chapter.id}>
               <Link
                 href="/indice"
-                className="group border-border-subtle bg-surface-1/60 hover:border-accent-border hover:bg-accent-subtle flex items-center justify-between rounded-xl border px-4 py-3 backdrop-blur-sm transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-sm"
+                className="group flex items-start gap-4 px-5 py-4 transition-colors duration-150 hover:bg-surface-1"
               >
-                <div className="flex items-center gap-4">
-                  <span className="text-accent-primary font-mono text-sm font-medium">
-                    {chapter.id}
-                  </span>
-                  <div className="flex flex-col">
-                    <span className="text-text-primary text-sm font-semibold">
-                      {chapter.label}
-                    </span>
-                    <span className="text-text-tertiary text-xs">
-                      {chapter.items.length} secciones
-                    </span>
-                  </div>
+                <span className="font-mono text-[11px] font-medium text-accent-primary mt-px shrink-0 tabular-nums">
+                  {chapter.id}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-text-primary text-[13px] font-semibold leading-snug">
+                    {chapter.label}
+                  </p>
+                  <p className="mt-1 text-[11.5px] leading-[1.5] text-text-tertiary line-clamp-1">
+                    {chapter.description}
+                  </p>
                 </div>
                 <ArrowRight
-                  className="text-text-tertiary group-hover:text-accent-primary h-4 w-4 transition-all duration-200 ease-out group-hover:translate-x-0.5"
+                  className="mt-0.5 h-3.5 w-3.5 shrink-0 text-text-disabled transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-accent-primary"
                   aria-hidden="true"
                 />
               </Link>
             </li>
           ))}
         </ul>
+
+        {/* Footer */}
+        <div className="border-border-subtle border-t px-5 py-3">
+          <Link
+            href="/indice"
+            className="inline-flex items-center gap-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.08em] text-text-tertiary transition-colors duration-150 hover:text-accent-primary"
+          >
+            Ver índice completo
+            <ArrowRight className="h-3 w-3" aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     </FadeIn>
   );
