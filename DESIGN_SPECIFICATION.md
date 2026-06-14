@@ -103,6 +103,19 @@ En caso de requeriri nuevas animaciones se pueden añadir dentro de `ui/interact
 
 ---
 
+## Patrones recurrentes
+
+Patrones visuales ya establecidos; reutilízalos antes de inventar nuevos.
+
+- **Marcador de sección.** Eyebrow precedido de un dash `h-px w-8 bg-accent-primary` — abre la mayoría de secciones.
+- **Divisores hairline.** En vez de bordes por celda, contenedor `bg-border-subtle` + celdas `bg-surface-*` separadas con `gap-px`. Da líneas de 1px limpias en grids y paneles.
+- **Icono decorativo gigante.** En tarjetas, un icono/numeral `absolute` muy grande, `text-surface-3` → `group-hover:text-accent-border/60`; tarjeta con `overflow-hidden` y contenido en `relative` para legibilidad.
+- **Diagramas nativos.** Recreados con HTML/CSS + SVG y tokens (mapas BSC con flujo causa-efecto vertical, arquitectura con `foreignObject` + conectores). Nunca imágenes embebidas ni librerías de diagramación.
+- **Índice lateral (`OnThisPage`).** Resalta la subsección activa en `accent-primary` con borde izquierdo; sticky bajo el `TopBar`.
+- **Scroll suave.** `html { scroll-behavior: smooth }` bajo `@media (prefers-reduced-motion: no-preference)` — única regla no-token permitida en `globals.css`, para los anclajes del índice.
+
+---
+
 ## Implementación
 
 Los tokens viven en `src/styles/globals.css` en dos capas:

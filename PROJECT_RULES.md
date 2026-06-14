@@ -36,7 +36,8 @@ Lo único que se mantiene firme es el **sistema visual** ([DESIGN_SPECIFICATION.
 
 - **Tailwind con los tokens del tema.** Utilidades `bg-surface-*`, `text-text-*`, `border-border-*`, `font-display/body/mono`.
 - **Sin hex hardcodeados** en clases — si falta un color, se agrega al tema.
-- **Animaciones con `motion/react`.** Usar las primitivas de `ui/interactions/` (`FadeIn`, `Reveal`, `ScaleIn`, `Stagger`/`StaggerItem`). La curva y duraciones compartidas están en `lib/motion.ts`. No añadir keyframes manuales en `globals.css`.
+- **Animaciones con `motion/react`.** Usar las primitivas de `ui/interactions/` (`FadeIn`, `Reveal`, `ScaleIn`, `Stagger`/`StaggerItem`). La curva y duraciones compartidas están en `lib/motion.ts`. `globals.css` solo lleva tokens (única excepción: la regla `scroll-behavior: smooth` protegida por `prefers-reduced-motion`).
+- **Diagramas nativos.** Recrear diagramas con HTML/CSS + SVG y tokens del tema (no librerías de diagramación ni imágenes embebidas). Ver patrones en [DESIGN_SPECIFICATION.md](./DESIGN_SPECIFICATION.md).
 
 ---
 
@@ -56,9 +57,19 @@ Antes de crear un componente nuevo en `components/ui/`, **revisa si ya existe** 
 - `ui/typography/` — eyebrows, badges, etiquetas tipográficas.
 - `ui/images/` — avatares, imágenes, fotos.
 - `ui/interactions/` — `FadeIn`, `Reveal`, `ScaleIn`, `Stagger`/`StaggerItem` y futuras interacciones.
-- [Más categorías según crecimiento: feedback/, forms/, data-display/, etc.]
+- `ui/data-display/` — `DataTable`, `MatrixBadge` (tablas y matrices on-brand).
+- `sections/shared/` — `ChapterHero`, `ChapterLayout`, `OnThisPage`, `SectionHeader` (reusables entre capítulos).
+- [Más categorías según crecimiento: feedback/, forms/, etc.]
 
 Si necesitas una **variante** de un componente existente (tamaño distinto, estilo alternativo), **extiende el componente con props** antes de duplicar.
+
+---
+
+## Páginas de capítulo
+
+- Usar `ChapterHero` como header y `SectionNav` al cierre (deriva anterior/siguiente de `nav[chapterIndex].items`).
+- Páginas con **5+ subsecciones**: envolver en `ChapterLayout` para el índice lateral navegable (`OnThisPage`) y poner `id` + `scroll-mt-24` en cada subsección.
+- Las rutas ya viven en `content/nav.ts`; añadir páginas implementa rutas ya declaradas, no inventa nuevas.
 
 ---
 

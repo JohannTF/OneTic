@@ -29,6 +29,7 @@ src/
  │    │    ├── typography/   # Eyebrow, Badge, etc. (elementos tipográficos)
  │    │    ├── images/       # Avatar, Image, etc. (contenido visual/media)
  │    │    ├── interactions/ # FadeIn, Reveal, Stagger, ScaleIn (motion/react)
+ │    │    ├── data-display/ # DataTable, MatrixBadge (tablas y matrices on-brand)
  │    │    └── [más]/        # feedback/, forms/, layout/ según crecimiento
  │    ├── layout/            # Shell
  │    │    ├── sidebar/      # Sidebar + sub-componentes
@@ -36,7 +37,7 @@ src/
  │    │    ├── TopBar.tsx
  │    │    └── Logo.tsx
  │    └── sections/          # Patrones por sección
- │         ├── shared/       # Reusables entre secciones (SectionHeader...)
+ │         ├── shared/       # Reusables entre secciones (SectionHeader, ChapterHero, ChapterLayout, OnThisPage)
  │         └── [seccion]/    # Subdirectorio cuando hay 2+ componentes de una sección
  ├── content/                # Datos del portal
  │    ├── nav.ts             # Navegación global — nunca mover ni duplicar
@@ -79,3 +80,11 @@ import { Button } from "@/components/ui/buttons/Button";
 - **Sin `tailwind.config.js`** — la customización va en `globals.css` vía `@theme`.
 - **`components/ui/` está dividido por categoría.** Antes de crear un componente nuevo, revisa si ya existe en `buttons/`, `typography/`, `images/`, `interactions/`, etc. Reutiliza primero.
 - **Animaciones centralizadas en `ui/interactions/`.** Las primitivas `FadeIn`, `Reveal`, `Stagger`/`StaggerItem` y `ScaleIn` (todas de `motion/react`) cubren la mayoría de casos. La curva y duraciones compartidas viven en `lib/motion.ts`. `MotionConfig reducedMotion="user"` en `AppShell` maneja accesibilidad globalmente.
+
+## Páginas de capítulo
+
+- **Header + navegación.** Toda página de capítulo usa `ChapterHero` (eyebrow + título + lead) y cierra con `SectionNav`, que deriva el anterior/siguiente de `nav[chapterIndex].items` automáticamente.
+- **Índice lateral navegable (5+ subsecciones).** Páginas largas se envuelven en `ChapterLayout`, que renderiza un índice sticky a la derecha (`OnThisPage`) con scrollspy que resalta la subsección visible. Cada subsección debe llevar `id` + `scroll-mt-24` para el anclaje bajo el `TopBar`. Páginas con pocas secciones no lo usan.
+- **Gotcha sticky + overflow.** Los ancestros que recortan overflow usan `overflow-x-clip`, **no** `overflow-x-hidden`: este último fuerza `overflow-y: auto` (lo vuelve contenedor de scroll) y rompe `position: sticky`. El `<main>` de `AppShell` ya aplica `clip`.
+- **Tablas y matrices.** `ui/data-display/DataTable` (celdas aceptan `ReactNode`, scroll horizontal en móvil) + `MatrixBadge` para matrices tipo RACI/cascada (R/A/C/I, P/S).
+- **Diagramas nativos.** Mapas estratégicos (BSC) y arquitectura se recrean con HTML/CSS + SVG y tokens del tema; **sin** librerías de diagramación (React Flow, Mermaid) ni capturas de imagen.
