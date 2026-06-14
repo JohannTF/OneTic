@@ -28,7 +28,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       />
       <div className="flex min-w-0 flex-1 flex-col">
         <TopBar onMobileMenuToggle={() => setMobileOpen((o) => !o)} />
-        <main className="flex-1 overflow-x-hidden px-4 py-10 sm:px-8 sm:py-16 lg:px-20 lg:py-24">
+        <main className="flex-1 overflow-x-clip px-4 py-10 sm:px-8 sm:py-16 lg:px-20 lg:py-24">
           <div className="mx-auto w-full max-w-255">{children}</div>
         </main>
       </div>

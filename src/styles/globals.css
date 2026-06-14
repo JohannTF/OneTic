@@ -81,3 +81,10 @@ body {
   color: var(--text-primary);
   font-family: var(--font-body);
 }
+
+/* Scroll suave para los anclajes del índice lateral; respeta reduce-motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
