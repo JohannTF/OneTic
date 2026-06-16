@@ -9,6 +9,10 @@ import { CondicionesList } from "@/components/sections/documentacion/Condiciones
 import { ArquitecturaServicio } from "@/components/sections/documentacion/ArquitecturaServicio";
 import { SlaTable } from "@/components/sections/documentacion/SlaTable";
 import { OlaTable } from "@/components/sections/documentacion/OlaTable";
+import { DiagramaPrimerNivel } from "@/components/sections/documentacion/DiagramaPrimerNivel";
+import { DiagramaMantenimiento } from "@/components/sections/documentacion/DiagramaMantenimiento";
+import { DiagramaMesaAyuda } from "@/components/sections/documentacion/DiagramaMesaAyuda";
+import { DiagramaInventario } from "@/components/sections/documentacion/DiagramaInventario";
 import { SectionNav } from "@/components/sections/identidad/SectionNav";
 import { Reveal } from "@/components/ui/interactions/Reveal";
 import type { TocItem } from "@/components/sections/shared/OnThisPage";
@@ -28,6 +32,10 @@ const TOC: TocItem[] = [
   { id: "arquitectura", label: "Arquitectura" },
   { id: "sla", label: "Niveles · SLA" },
   { id: "ola", label: "Niveles · OLA" },
+  { id: "diagrama-nivel-1", label: "Diagrama de primer nivel" },
+  { id: "diagrama-mantenimiento", label: "Proceso: Mantenimiento" },
+  { id: "diagrama-mesa-ayuda", label: "Proceso: Mesa de ayuda" },
+  { id: "diagrama-inventario", label: "Proceso: Inventario" },
 ];
 
 export default function CedulaDeServicioPage() {
@@ -100,6 +108,22 @@ export default function CedulaDeServicioPage() {
         <OlaTable label="Aplicaciones" items={c.olaAplicaciones} />
         <OlaTable label="Software / aplicación" items={c.olaSoftware} />
       </section>
+
+      <div id="diagrama-nivel-1" className="scroll-mt-24">
+        <DiagramaPrimerNivel />
+      </div>
+
+      <div id="diagrama-mantenimiento" className="scroll-mt-24">
+        <DiagramaMantenimiento />
+      </div>
+
+      <div id="diagrama-mesa-ayuda" className="scroll-mt-24">
+        <DiagramaMesaAyuda />
+      </div>
+
+      <div id="diagrama-inventario" className="scroll-mt-24">
+        <DiagramaInventario />
+      </div>
 
       <SectionNav currentHref="/documentacion/cedula-de-servicio" chapterIndex={2} />
     </ChapterLayout>
