@@ -3,10 +3,8 @@
 import { Reveal } from "@/components/ui/interactions/Reveal";
 import { DataTable } from "@/components/ui/data-display/DataTable";
 
-// ── Tipos ─────────────────────────────────────────────────────────
 type ImpactLevel = "N" | "B" | "M" | "A";
 
-// ── Helpers visuales ──────────────────────────────────────────────
 const IMPACT_STYLE: Record<ImpactLevel, string> = {
   N: "bg-surface-2 text-text-disabled",
   B: "bg-success-subtle text-success",
@@ -43,7 +41,6 @@ function PeriodScale({ periodos, selected }: { periodos: string[]; selected: num
   );
 }
 
-// Eyebrow idéntico al usado en los componentes de la Cédula de Servicio
 function SectionEyebrow({ label }: { label: string }) {
   return (
     <Reveal className="mb-8">
@@ -58,132 +55,137 @@ function SectionEyebrow({ label }: { label: string }) {
 }
 
 // ── Datos ─────────────────────────────────────────────────────────
-const PERIODOS_IMPACTO = ["< 4 hrs", "4–8 hrs", "8–24 hrs", "1–2 días", "2–5 días", "> 5 días"];
+const PERIODOS_IMPACTO = ["< 2 hrs", "2–4 hrs", "4–8 hrs", "8–24 hrs", "1–2 días", "> 2 días"];
 
 const IMPACTOS: { tipo: string; niveles: ImpactLevel[] }[] = [
-  { tipo: "Incumplimiento del SLA de intervención presencial",           niveles: ["N","B","B","A","A","A"] },
-  { tipo: "Acumulación de equipos sin atención / backlog",               niveles: ["N","B","M","A","A","A"] },
-  { tipo: "Deterioro del equipo del cliente por falta de mantenimiento", niveles: ["N","N","B","M","A","A"] },
-  { tipo: "Pérdida de trazabilidad (sin registro en ITSM)",              niveles: ["N","B","M","A","A","A"] },
-  { tipo: "Daño a la reputación / imagen del servicio",                  niveles: ["N","N","B","M","A","A"] },
-  { tipo: "Pérdida de productividad del equipo técnico",                 niveles: ["B","M","M","A","A","A"] },
-  { tipo: "Pérdida económica (penalizaciones / re-trabajos)",            niveles: ["N","N","B","M","A","A"] },
-  { tipo: "Afectación operativa al cliente final",                       niveles: ["N","B","M","A","A","A"] },
+  { tipo: "Incumplimiento de SLA con el cliente",                    niveles: ["N","B","A","A","A","A"] },
+  { tipo: "Pérdida de trazabilidad de tickets",                      niveles: ["M","A","A","A","A","A"] },
+  { tipo: "Afectación en la atención de incidentes activos",         niveles: ["B","M","A","A","A","A"] },
+  { tipo: "Incapacidad de reporte por parte del usuario",            niveles: ["B","M","A","A","A","A"] },
+  { tipo: "Daño a la reputación / imagen del servicio",              niveles: ["N","B","M","A","A","A"] },
+  { tipo: "Pérdida de productividad del equipo técnico",             niveles: ["B","M","A","A","A","A"] },
+  { tipo: "Pérdida de información histórica (historial de tickets)", niveles: ["N","N","B","M","A","A"] },
+  { tipo: "Pérdida económica (penalizaciones contractuales)",        niveles: ["N","N","B","M","A","A"] },
 ];
 
 const NOTAS_IMPACTO = [
-  "El incumplimiento del SLA escala a Alto entre las 8 y 24 horas porque el SLA de intervención presencial comprometido contractualmente es de máximo 24 horas hábiles para incidentes críticos. Antes de ese umbral, el impacto es gestionable si la visita puede reprogramarse dentro del mismo día.",
-  "La acumulación de backlog (equipos sin atención) escala a Medio desde las 4–8 horas porque, en ausencia de técnicos, los tickets de mantenimiento correctivo se apilan, comprometiendo los tiempos de respuesta futuros.",
-  "El deterioro del equipo del cliente escala lentamente porque el daño físico por falta de mantenimiento preventivo no es inmediato; sin embargo, a partir de los 2 días sin atención los equipos en estado crítico pueden desarrollar fallas irreversibles.",
-  "La pérdida de trazabilidad escala a Alto en las primeras horas porque, sin la plataforma ITSM, cualquier intervención realizada queda sin registro formal, incumpliendo los requisitos documentales del SLA.",
-  "La pérdida económica por penalizaciones contractuales se materializa formalmente a partir de las 24 horas, cuando el incumplimiento del SLA presencial es irrecuperable para los equipos críticos del cliente.",
+  "El incumplimiento de SLA escala a Alto a las 4 horas porque ese es el tiempo máximo de respuesta remota comprometido contractualmente. Entre las 2 y 4 horas el impacto es Bajo porque aún existe margen para atender dentro del SLA si el proceso se restablece.",
+  "La pérdida de trazabilidad de tickets es el impacto más inmediato: sin la plataforma ITSM, el equipo pierde visibilidad del estado de todos los incidentes activos desde las primeras horas, sin posibilidad de priorizar ni asignar correctamente.",
+  "La incapacidad de reporte del usuario se vuelve Alta a las 4 horas, punto en el que el canal oficial lleva suficiente tiempo inoperante como para que los clientes no puedan gestionar ningún incidente nuevo por ningún medio formal.",
+  "La pérdida de información histórica escala más lentamente porque los respaldos diarios del ITSM (retención 30 días, según OLA) mitigan la pérdida de datos en interrupciones cortas; el riesgo de pérdida real de registros se vuelve significativo a partir de las 8–24 horas sin recuperación.",
+  "La pérdida económica por penalizaciones contractuales se materializa formalmente a partir de las 8 horas, cuando el incumplimiento de SLA es ya irrecuperable para varios tickets activos.",
 ];
 
-const MTPOD_PERIODOS = ["< 4 hrs", "< 8 hrs", "< 12 hrs", "< 24 hrs", "< 2 días", "> 2 días"];
+const MTPOD_PERIODOS = ["< 2 hrs", "< 4 hrs", "< 8 hrs", "< 12 hrs", "< 24 hrs", "< 2 días", "> 2 días"];
 const MTPOD_SELECTED = 1;
+const MTPOD_CONSIDERANDO = [
+  "El SLA de respuesta remota exige atención en máximo 4 horas hábiles.",
+  "La pérdida de trazabilidad de tickets escala a nivel Alto a partir de las 2 horas.",
+  "La afectación al servicio del cliente es Media desde las 2 horas y Alta a las 4 horas.",
+];
 const MTPOD_JUSTIFICACION =
-  "La interrupción de MAN_01 por más de 8 horas hábiles implica una acumulación significativa de equipos sin atención, riesgo de incumplimiento inminente del SLA presencial y daño reputacional en ascenso. Este umbral se considera el límite antes del cual los impactos adversos se vuelven inaceptables, dado que el equipo técnico aún puede reprogramar intervenciones dentro del mismo día si la interrupción no supera las 8 horas.";
+  "La interrupción de SOP_02 por más de 4 horas hábiles implica incumplimiento directo del SLA acordado con el cliente (respuesta remota máx. 4 hrs), afectación Alta en la continuidad del servicio y daño reputacional de nivel Medio en ascenso. Este umbral se considera el límite antes del cual los impactos adversos se vuelven inaceptables para la organización.";
 
-const RTO_PERIODOS = ["< 30 min", "< 1 hr", "< 2 hrs", "< 4 hrs", "< 8 hrs", "< 12 hrs"];
+const RTO_PERIODOS = ["< 30 min", "< 1 hr", "< 2 hrs", "< 4 hrs", "< 8 hrs", "< 12 hrs", "< 24 hrs"];
 const RTO_SELECTED = 2;
 const RTO_JUSTIFICACION =
-  "El RTO de 2 horas hábiles permite que el proceso se restablezca con suficiente margen antes de que expire el MTPoD de 8 horas. Este tiempo contempla: diagnóstico del motivo de la interrupción (30 min), reasignación de personal o habilitación de opción de continuidad (60 min) y reanudación del programa de visitas con priorización de equipos críticos (30 min). El OLA establece un MTTR máximo de 4 hrs para la plataforma ITSM; el RTO de 2 hrs resulta más exigente y adecuado a la criticidad del proceso frente al cliente.";
+  "El RTO de 2 horas hábiles permite que el proceso se restablezca con suficiente margen antes de que expire el MTPoD de 4 horas. Este tiempo contempla: diagnóstico del fallo (30 min), activación del canal alternativo de registro (30 min) y reanudación de la atención de tickets pendientes (60 min). El OLA establece un MTTR máximo de 4 hrs para la plataforma ITSM, por lo que el RTO de 2 hrs representa un objetivo más exigente y adecuado a la criticidad del proceso.";
 
 const MBCO = [
   {
-    capacidad: "Personal técnico disponible",
-    descripcion: "Al menos 1 técnico de soporte y 1 especialista deben estar operativos para ejecutar intervenciones presenciales de prioridad alta.",
+    capacidad: "Canal de reporte activo",
+    descripcion: "Al menos un medio alternativo (correo electrónico) debe estar disponible para que los usuarios puedan reportar incidentes durante la indisponibilidad de la plataforma ITSM.",
   },
   {
-    capacidad: "Kit de herramientas operativo",
-    descripcion: "El técnico debe contar con herramientas básicas (desarmadores, multímetro, pinzas antiestáticas) y consumibles mínimos para ejecutar las intervenciones.",
+    capacidad: "Clasificación y priorización operativa",
+    descripcion: "El auxiliar administrativo TI debe poder clasificar y priorizar manualmente los incidentes recibidos, garantizando atención prioritaria a los tickets de impacto Alto.",
   },
   {
-    capacidad: "Canal de comunicación activo",
-    descripcion: "El administrador del servicio debe poder contactar al cliente para notificar retrasos, reprogramar visitas y emitir alertas de continuidad.",
+    capacidad: "Atención a incidentes críticos",
+    descripcion: "Como mínimo, los incidentes clasificados como prioridad Alta deben recibir respuesta dentro del SLA (4 hrs hábiles), incluso en modo degradado.",
   },
   {
-    capacidad: "Registro manual de intervenciones",
-    descripcion: "Si la plataforma ITSM no está disponible, las intervenciones se documentan en formato físico o en hoja de cálculo local para su posterior carga al sistema.",
+    capacidad: "Registro retroactivo",
+    descripcion: "Una vez restablecida la plataforma ITSM, todos los incidentes atendidos en modo alterno deben registrarse formalmente para mantener la trazabilidad.",
   },
   {
-    capacidad: "Atención prioritaria a equipos críticos",
-    descripcion: "Como mínimo, los equipos clasificados como críticos para el cliente (aquellos usados en actividades productivas directas) deben recibir atención dentro del SLA de 24 horas hábiles.",
+    capacidad: "Capacidad mínima de personal",
+    descripcion: "Al menos 1 auxiliar administrativo TI y 1 técnico de soporte deben estar operativos para sostener el proceso en nivel mínimo.",
   },
 ];
 
 const CONTINUIDAD = [
   {
-    opcion: "Reprogramación de visita",
-    descripcion: "El administrador del servicio contacta al cliente para reprogramar la intervención dentro del siguiente día hábil, priorizando equipos con mayor impacto operativo.",
-    aplicabilidad: "Ante indisponibilidad de personal o insumos",
-  },
-  {
-    opcion: "Sustitución temporal de técnico",
-    descripcion: "El especialista en diagnóstico puede cubrir de forma temporal las intervenciones de mantenimiento básico cuando el técnico asignado no esté disponible.",
-    aplicabilidad: "Ante ausencia del técnico de soporte (Riesgo R4)",
-  },
-  {
-    opcion: "Diagnóstico remoto previo a la visita",
-    descripcion: "Antes de presentarse en sitio, el técnico puede coordinar con el cliente un diagnóstico telefónico para identificar la urgencia del equipo y priorizar la atención presencial.",
-    aplicabilidad: "Ante demora en la llegada al sitio del cliente",
-  },
-  {
-    opcion: "Uso de refacciones del stock mínimo",
-    descripcion: "Si el componente requerido está disponible en el stock de refacciones pre-comprado, la intervención correctiva puede completarse sin esperar al proveedor externo.",
-    aplicabilidad: "Ante desabasto o demora en adquisición de piezas (Riesgo R2)",
-  },
-  {
-    opcion: "Registro físico de intervención",
-    descripcion: "Cuando la plataforma ITSM no está disponible, el técnico documenta la intervención en el formato físico de reporte de servicio para carga posterior al sistema.",
+    opcion: "Registro manual por correo electrónico",
+    descripcion: "Uso del correo institucional (auxiliar@onetic.com) como canal alterno para recibir y registrar reportes de incidentes cuando la plataforma ITSM no está disponible.",
     aplicabilidad: "Ante caída del sistema ITSM (Riesgo R3)",
+  },
+  {
+    opcion: "Bitácora física de tickets",
+    descripcion: "Registro temporal en formato físico (papel o hoja de cálculo local) de los incidentes recibidos, para su posterior carga en ITSM una vez restablecido el servicio.",
+    aplicabilidad: "Ante caída del sistema ITSM o fallo de conectividad",
+  },
+  {
+    opcion: "Comunicación directa por teléfono",
+    descripcion: "Los usuarios pueden contactar directamente al auxiliar (ext. 5545845903) o al administrador del servicio (ext. 5545845900) para reportar incidentes durante la indisponibilidad del canal oficial.",
+    aplicabilidad: "Ante indisponibilidad del canal de comunicación (Activo A-006)",
+  },
+  {
+    opcion: "Escalación directa al especialista",
+    descripcion: "En ausencia del técnico de soporte asignado, el administrador puede redirigir tickets de alta prioridad directamente al especialista en diagnóstico (Félix Barrera, ext. 5545845902).",
+    aplicabilidad: "Ante indisponibilidad de personal técnico (Riesgo R4)",
+  },
+  {
+    opcion: "Atención remota sin plataforma",
+    descripcion: "El técnico puede brindar soporte remoto básico (diagnóstico telefónico o por correo) sin requerir acceso al ITSM, registrando la intervención retroactivamente.",
+    aplicabilidad: "Ante fallas parciales del sistema ITSM",
   },
 ];
 
 const RECIBE = [
   {
-    id: "SOP_02 – 2A9",
-    descripcion: "Documentación de solución y cierre de ticket — cuando un ticket de incidente escala a mantenimiento correctivo, SOP_02 transfiere el historial del incidente a MAN_01 para iniciar la intervención.",
+    id: "MAN_01",
+    descripcion: "Mantenimiento preventivo y correctivo de equipos — suministra información sobre fallas detectadas durante intervenciones preventivas que generan nuevos tickets.",
   },
   {
-    id: "INV_03 – 3A3 / 3A4",
-    descripcion: "Levantamiento físico y captura de datos de activos — el inventario actualizado de activos (marca, modelo, estado físico) orienta el diagnóstico y la planificación del mantenimiento preventivo.",
+    id: "INV_03 – 3A5",
+    descripcion: "Actualización del inventario post-intervención — provee datos del estado actual de los activos para la clasificación y diagnóstico de tickets.",
   },
   {
     id: "A-001",
-    descripcion: "Equipo de cómputo — es el objeto directo de intervención; su estado registrado en el inventario determina el tipo y alcance de la intervención a realizar.",
+    descripcion: "Equipo de cómputo — es el objeto de intervención reportado en los tickets de incidente.",
   },
   {
-    id: "A-007",
-    descripcion: "Base de datos de inventario tecnológico — provee el historial de intervenciones previas, útil para identificar equipos con fallas recurrentes y planificar el mantenimiento.",
+    id: "A-006",
+    descripcion: "Canal de comunicación con el cliente — medio por el cual los usuarios ingresan los reportes de incidente al proceso.",
   },
 ];
 
 const ENVIA = [
   {
-    id: "SOP_02 – 2A10",
-    descripcion: "Actualización del ticket — el cierre de la intervención correctiva genera el cierre formal del ticket asociado en la mesa de ayuda, actualizando su historial en ITSM.",
+    id: "MAN_01 – 1A9",
+    descripcion: "Registro de la intervención en ITSM — los tickets resueltos que implican mantenimiento correctivo alimentan el historial de intervenciones de MAN_01.",
   },
   {
     id: "INV_03 – 3A5",
-    descripcion: "Actualización del inventario post-intervención — tras cada mantenimiento, MAN_01 transfiere el estado actualizado del equipo (componentes reemplazados, estado resultante) al proceso de inventario.",
-  },
-  {
-    id: "A-003",
-    descripcion: "Reporte técnico de intervención — documento formal generado al término de cada visita, con actividades realizadas, componentes reemplazados y firma de conformidad del cliente.",
+    descripcion: "Actualización del inventario post-intervención — el cierre de tickets con reemplazo de componentes o cambio de estado del equipo actualiza la base de datos de inventario.",
   },
   {
     id: "A-004",
-    descripcion: "Plataforma ITSM — recibe el registro detallado de cada intervención técnica (actividad 1A9), alimentando el historial del equipo y el control de mantenimientos programados.",
+    descripcion: "Plataforma ITSM — recibe el registro completo del ciclo de vida de cada ticket generado en SOP_02.",
+  },
+  {
+    id: "A-005",
+    descripcion: "Historial de tickets e incidencias — se nutre directamente de cada ticket cerrado, conformando el repositorio histórico del servicio.",
   },
   {
     id: "A-007",
-    descripcion: "Base de datos de inventario tecnológico — se actualiza con el estado resultante de cada equipo intervenido, incorporando cambios de componentes y recomendaciones de renovación.",
+    descripcion: "Base de datos de inventario tecnológico — se actualiza cuando la resolución de un ticket implica cambios físicos o de estado en un activo registrado.",
   },
 ];
 
 // ── Componente ────────────────────────────────────────────────────
-export function BiaTacticoMAN01() {
+export function BiaTacticoSOP02() {
   return (
     <article className="flex flex-col gap-20">
 
@@ -191,55 +193,44 @@ export function BiaTacticoMAN01() {
       <Reveal>
         <div className="flex flex-col gap-1.5">
           <span className="font-mono inline-flex items-center rounded-md bg-accent-subtle px-2.5 py-1 text-[13px] font-semibold uppercase tracking-[0.1em] text-accent-primary ring-1 ring-inset ring-accent-primary/25">
-            MAN_01
+            SOP_02
           </span>
           <h2 className="text-[22px] font-semibold leading-snug text-text-primary">
-            Mantenimiento preventivo y correctivo de equipos de cómputo
+            Gestión de mesa de ayuda y sistema de tickets
           </h2>
         </div>
       </Reveal>
 
       {/* ── § 1 Introducción ─────────────────────────────────────── */}
-      <section id="man01-intro" className="scroll-mt-24">
+      <section id="sop02-intro" className="scroll-mt-24">
         <SectionEyebrow label="Introducción" />
         <Reveal>
           <div className="flex max-w-[72ch] flex-col gap-4">
             <p className="text-[15px] leading-[1.7] text-text-secondary">
-              El presente Análisis de Impacto al Negocio (BIA), elaborado en conformidad con la
-              norma ISO 22301, evalúa las consecuencias operativas que derivarían de una
-              interrupción total o parcial del proceso MAN_01: Mantenimiento preventivo y correctivo
-              de equipos de cómputo, en el contexto del servicio de soporte técnico IT que OneTic
-              provee a PyMEs del área metropolitana.
+              El presente Análisis de Impacto al Negocio (BIA) evalúa las consecuencias operativas
+              que derivarían de una interrupción total o parcial del proceso SOP_02: Gestión de
+              mesa de ayuda y sistema de tickets, en el contexto del servicio de soporte técnico IT
+              que OneTic provee a PyMEs del área metropolitana.
             </p>
             <p className="text-[15px] leading-[1.7] text-text-secondary">
-              Este proceso constituye el núcleo operativo del servicio: es la actividad mediante la
-              cual OneTic garantiza la disponibilidad, estabilidad y buen funcionamiento de los
-              activos tecnológicos de sus clientes. A través de intervenciones preventivas periódicas
-              (mantenimiento preventivo y correctivo de activos tecnológicos, incluyendo limpieza
-              técnica, revisión de componentes, diagnóstico y reparación) y de la atención correctiva
-              ante fallas detectadas (diagnóstico, reemplazo de componentes, ajustes de
-              configuración), MAN_01 preserva la continuidad operativa de las organizaciones que
-              dependen de su infraestructura tecnológica para desarrollar sus actividades cotidianas.
-            </p>
-            <p className="text-[15px] leading-[1.7] text-text-secondary">
-              Una interrupción en MAN_01 no solo afecta la capacidad de prestación del servicio de
-              OneTic, sino que impacta directamente la operatividad de los clientes: los equipos
-              dejan de recibir atención preventiva, las fallas correctivas se acumulan sin resolución
-              y los activos tecnológicos se deterioran progresivamente, comprometiendo la
-              productividad del usuario final y el cumplimiento de los compromisos contractuales
-              establecidos en el SLA.
+              Este proceso constituye el canal principal mediante el cual los usuarios finales de
+              las organizaciones cliente reportan incidentes técnicos y reciben atención
+              estructurada. Una interrupción en SOP_02 no solo afecta la capacidad de atención de
+              OneTic, sino que impacta directamente la continuidad operativa de los clientes,
+              quienes dependen de este canal para mantener en funcionamiento sus activos
+              tecnológicos.
             </p>
           </div>
         </Reveal>
       </section>
 
       {/* ── § 2 Objetivos ────────────────────────────────────────── */}
-      <section id="man01-objetivos" className="scroll-mt-24">
+      <section id="sop02-objetivos" className="scroll-mt-24">
         <SectionEyebrow label="Objetivos" />
         <Reveal>
           <ol className="flex max-w-[72ch] flex-col gap-3">
             {[
-              "Identificar el impacto potencial de una interrupción del proceso MAN_01 sobre las dimensiones económica, reputacional, operativa y regulatoria del servicio.",
+              "Identificar el impacto potencial de una interrupción del proceso SOP_02 sobre las dimensiones económica, reputacional, operativa y regulatoria del servicio.",
               "Determinar el Máximo Periodo de Interrupción Tolerable (MTPoD) y el Tiempo de Recuperación Objetivo (RTO) del proceso.",
               "Establecer el Objetivo Mínimo de Continuidad del Negocio (MBCO) que garantice la prestación del servicio en condiciones degradadas.",
               "Identificar las interdependencias del proceso con otros procesos y activos de información.",
@@ -257,7 +248,7 @@ export function BiaTacticoMAN01() {
       </section>
 
       {/* ── § 3.1 Identificación del proceso ────────────────────── */}
-      <section id="man01-identificacion" className="scroll-mt-24">
+      <section id="sop02-identificacion" className="scroll-mt-24">
         <SectionEyebrow label="Identificación del proceso" />
         <Reveal>
           <DataTable
@@ -266,12 +257,12 @@ export function BiaTacticoMAN01() {
               { key: "valor", label: "Valor" },
             ]}
             rows={[
-              { campo: "ID del proceso",                 valor: "MAN_01" },
-              { campo: "Nombre del proceso",             valor: "Mantenimiento preventivo y correctivo de equipos de cómputo" },
-              { campo: "Grupo de productos y servicios", valor: "Soporte técnico IT: intervenciones preventivas y correctivas en hardware de equipos de cómputo, proyectores e impresoras" },
+              { campo: "ID del proceso",                 valor: "SOP_02" },
+              { campo: "Nombre del proceso",             valor: "Gestión de mesa de ayuda y sistema de tickets" },
+              { campo: "Grupo de productos y servicios", valor: "Soporte técnico IT: Atención y resolución de incidentes mediante plataforma ITSM" },
               { campo: "Área responsable",               valor: "Departamento de TI - OneTic" },
-              { campo: "Función responsable",            valor: "Administrador del servicio / Técnico de soporte / Especialista en diagnóstico y reparación" },
-              { campo: "Nombre del responsable",         valor: "Jesús Ochoa (Administrador del servicio) · Mario Olvera (Técnico de soporte) · Félix Barrera (Especialista en diagnóstico)" },
+              { campo: "Función responsable",            valor: "Administrador del servicio / Auxiliar administrativo TI" },
+              { campo: "Nombre del responsable",         valor: "Jesús Ochoa (Administrador del servicio) · Daniel Salgado (Auxiliar administrativo TI)" },
               { campo: "Fecha de llenado",               valor: "Junio 2026" },
             ].map(({ campo, valor }) => ({
               campo: <span className="font-medium text-text-primary">{campo}</span>,
@@ -282,7 +273,7 @@ export function BiaTacticoMAN01() {
       </section>
 
       {/* ── § 3.2 Tipo y nivel de impacto ────────────────────────── */}
-      <section id="man01-impacto" className="scroll-mt-24">
+      <section id="sop02-impacto" className="scroll-mt-24">
         <SectionEyebrow label="Tipo y nivel de impacto al negocio" />
         <Reveal>
           <div className="mb-4 flex flex-wrap gap-4">
@@ -332,7 +323,7 @@ export function BiaTacticoMAN01() {
       </section>
 
       {/* ── § 3.2 Notas de interpretación ───────────────────────── */}
-      <section id="man01-notas" className="scroll-mt-24">
+      <section id="sop02-notas" className="scroll-mt-24">
         <SectionEyebrow label="Notas de interpretación" />
         <Reveal>
           <ul className="flex max-w-[72ch] flex-col gap-3">
@@ -350,10 +341,18 @@ export function BiaTacticoMAN01() {
       </section>
 
       {/* ── § 3.3 MTPoD / MAO ───────────────────────────────────── */}
-      <section id="man01-mtpod" className="scroll-mt-24">
+      <section id="sop02-mtpod" className="scroll-mt-24">
         <SectionEyebrow label="Identificación del máximo periodo de interrupción tolerable (MTPoD / MAO)" />
         <Reveal>
           <div className="rounded-2xl border border-border-subtle bg-surface-base p-6 sm:p-8">
+            <ul className="mb-5 flex flex-col gap-1.5">
+              {MTPOD_CONSIDERANDO.map((c, i) => (
+                <li key={i} className="flex items-start gap-2.5 text-[13px] leading-[1.6] text-text-tertiary">
+                  <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-text-disabled" />
+                  {c}
+                </li>
+              ))}
+            </ul>
             <PeriodScale periodos={MTPOD_PERIODOS} selected={MTPOD_SELECTED} />
             <p className="mt-5 max-w-[66ch] text-[14px] leading-[1.7] text-text-secondary">
               {MTPOD_JUSTIFICACION}
@@ -363,7 +362,7 @@ export function BiaTacticoMAN01() {
       </section>
 
       {/* ── § 3.4 RTO ───────────────────────────────────────────── */}
-      <section id="man01-rto" className="scroll-mt-24">
+      <section id="sop02-rto" className="scroll-mt-24">
         <SectionEyebrow label="Identificación del tiempo de recuperación objetivo (RTO)" />
         <Reveal>
           <div className="rounded-2xl border border-border-subtle bg-surface-base p-6 sm:p-8">
@@ -376,14 +375,14 @@ export function BiaTacticoMAN01() {
       </section>
 
       {/* ── § 3.5 MBCO ──────────────────────────────────────────── */}
-      <section id="man01-mbco" className="scroll-mt-24">
+      <section id="sop02-mbco" className="scroll-mt-24">
         <SectionEyebrow label="Objetivo de continuidad del negocio mínimo (MBCO)" />
         <Reveal>
           <div className="overflow-hidden rounded-2xl border border-border-subtle bg-border-subtle">
             <div className="flex flex-col gap-px">
               {MBCO.map(({ capacidad, descripcion }, i) => (
                 <div key={i} className="flex items-start gap-6 bg-surface-base px-6 py-5">
-                  <span className="min-w-[180px] max-w-[200px] shrink-0 text-[13px] font-semibold leading-snug text-text-primary">
+                  <span className="min-w-[190px] max-w-[210px] shrink-0 text-[13px] font-semibold leading-snug text-text-primary">
                     {capacidad}
                   </span>
                   <p className="text-[13px] leading-[1.65] text-text-secondary">{descripcion}</p>
@@ -395,14 +394,14 @@ export function BiaTacticoMAN01() {
       </section>
 
       {/* ── § 3.7 Continuidad operacional ───────────────────────── */}
-      <section id="man01-continuidad" className="scroll-mt-24">
+      <section id="sop02-continuidad" className="scroll-mt-24">
         <SectionEyebrow label="Opciones actuales de continuidad operacional" />
         <Reveal>
           <DataTable
             columns={[
-              { key: "opcion",        label: "Opción",        className: "min-w-[160px]" },
+              { key: "opcion",        label: "Opción",        className: "min-w-[200px]" },
               { key: "descripcion",   label: "Descripción",   className: "min-w-[260px]" },
-              { key: "aplicabilidad", label: "Aplicabilidad", className: "min-w-[180px]" },
+              { key: "aplicabilidad", label: "Aplicabilidad", className: "min-w-[200px]" },
             ]}
             rows={CONTINUIDAD.map(({ opcion, descripcion, aplicabilidad }) => ({
               opcion:        <span className="font-medium text-text-primary">{opcion}</span>,
@@ -414,15 +413,13 @@ export function BiaTacticoMAN01() {
       </section>
 
       {/* ── § 3.9 Recibe ─────────────────────────────────────────── */}
-      <section id="man01-recibe" className="scroll-mt-24">
-        <SectionEyebrow label="Procesos / actividades de los que MAN_01 recibe información" />
+      <section id="sop02-recibe" className="scroll-mt-24">
+        <SectionEyebrow label="Procesos / actividades de los que SOP_02 recibe información" />
         <Reveal>
           <p className="mb-6 max-w-[72ch] text-[14px] leading-[1.7] text-text-secondary">
-            MAN_01 tiene dependencias bidireccionales con los procesos SOP_02 e INV_03. Una
-            interrupción en MAN_01 afecta la capacidad de actualización del inventario (INV_03) y
-            el cierre formal de tickets en la mesa de ayuda (SOP_02). A su vez, MAN_01 depende de
-            la información del inventario y del historial de tickets para planificar y ejecutar sus
-            intervenciones.
+            SOP_02 tiene dependencias bidireccionales con los procesos MAN_01 e INV_03. Una
+            interrupción en SOP_02 afecta la capacidad de registro y seguimiento de intervenciones
+            en ambos procesos.
           </p>
           <DataTable
             columns={[
@@ -438,8 +435,8 @@ export function BiaTacticoMAN01() {
       </section>
 
       {/* ── § 3.10 Envía ─────────────────────────────────────────── */}
-      <section id="man01-envia" className="scroll-mt-24">
-        <SectionEyebrow label="Procesos / actividades a los que MAN_01 envía información" />
+      <section id="sop02-envia" className="scroll-mt-24">
+        <SectionEyebrow label="Procesos / actividades a los que SOP_02 envía información" />
         <Reveal>
           <DataTable
             columns={[

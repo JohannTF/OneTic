@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 
 export type TocItem = {
   id: string;
   label: string;
+  isGroup?: boolean;
 };
 
 type OnThisPageProps = {
@@ -17,6 +18,12 @@ type OnThisPageProps = {
 // mediante IntersectionObserver. Pensado para páginas con 5+ subsecciones.
 export function OnThisPage({ items, title = "En esta página" }: OnThisPageProps) {
   const [activeId, setActiveId] = useState<string>(items[0]?.id ?? "");
+  const activeRef = useRef<HTMLAnchorElement>(null);
+
+  // Desplaza el TOC para mantener el ítem activo visible dentro del sidebar.
+  useEffect(() => {
+    activeRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [activeId]);
 
   useEffect(() => {
     // Mapa de visibilidad de cada subsección; se actualiza en cada callback.
@@ -27,8 +34,11 @@ export function OnThisPage({ items, title = "En esta página" }: OnThisPageProps
         for (const entry of entries) {
           visibility.set(entry.target.id, entry.isIntersecting);
         }
-        // Activa la primera subsección visible en orden de documento.
-        const current = items.find((item) => visibility.get(item.id));
+        // Activa la última subsección visible en orden de documento.
+        // Usar la última (no la primera) garantiza que secciones contenedoras
+        // grandes no bloqueen la activación de sus subsecciones específicas.
+        const visibleItems = items.filter((item) => visibility.get(item.id));
+        const current = visibleItems.at(-1);
         if (current) {
           setActiveId(current.id);
         }
@@ -51,17 +61,21 @@ export function OnThisPage({ items, title = "En esta página" }: OnThisPageProps
         {title}
       </p>
       <ul className="border-border-subtle border-l">
-        {items.map((item) => {
+        {items.map((item, index) => {
           const active = item.id === activeId;
           return (
-            <li key={item.id}>
+            <li key={item.id} className={item.isGroup && index > 0 ? "mt-3" : ""}>
               <a
+                ref={active ? activeRef : undefined}
                 href={`#${item.id}`}
                 aria-current={active ? "location" : undefined}
                 className={cn(
                   "-ml-px block border-l-2 py-1.5 pl-4 text-[12.5px] leading-snug transition-colors duration-150",
+                  item.isGroup ? "font-semibold" : "",
                   active
-                    ? "border-accent-primary text-accent-primary font-medium"
+                    ? "border-accent-primary text-accent-primary"
+                    : item.isGroup
+                    ? "border-transparent text-text-primary hover:text-text-secondary"
                     : "border-transparent text-text-tertiary hover:text-text-secondary",
                 )}
               >

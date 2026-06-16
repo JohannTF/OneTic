@@ -15,7 +15,10 @@ export function ChapterLayout({ toc, children }: ChapterLayoutProps) {
 
       <aside className="hidden lg:block">
         <div className="sticky top-24">
-          <OnThisPage items={toc} />
+          {/* Overflow en hijo, nunca en el sticky — overflow rompe position:sticky */}
+          <div className="max-h-[calc(100vh-8rem)] overflow-y-auto pb-4 pr-1">
+            <OnThisPage items={toc} />
+          </div>
         </div>
       </aside>
     </div>
