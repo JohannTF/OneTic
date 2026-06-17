@@ -49,7 +49,7 @@ export const nav: NavChapter[] = [
       "Identificación y gestión: inventario consolidado de activos y matriz de riesgos bajo ISO 27000.",
     items: [
       { id: "13", label: "Inventario de Activos", href: "/activos/inventario" },
-      { id: "14", label: "Matriz de Riesgos", href: "/activos/matriz-de-riesgos" },
+      { id: "14", label: "Matriz de Riesgo", href: "/activos/matriz-de-riesgo" },
     ],
   },
   {

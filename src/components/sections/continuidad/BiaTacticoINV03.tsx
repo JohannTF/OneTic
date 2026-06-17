@@ -225,7 +225,7 @@ export function BiaTacticoINV03() {
       </Reveal>
 
       {/* ── § 1 Introducción ─────────────────────────────────────── */}
-      <section id="inv03-intro" className="scroll-mt-24">
+      <section id="inv03-intro" className="scroll-mt-36">
         <SectionEyebrow label="Introducción" />
         <Reveal>
           <div className="flex max-w-[72ch] flex-col gap-4">
@@ -252,7 +252,7 @@ export function BiaTacticoINV03() {
       </section>
 
       {/* ── § 2 Objetivos ────────────────────────────────────────── */}
-      <section id="inv03-objetivos" className="scroll-mt-24">
+      <section id="inv03-objetivos" className="scroll-mt-36">
         <SectionEyebrow label="Objetivos" />
         <Reveal>
           <ol className="flex max-w-[72ch] flex-col gap-3">
@@ -275,7 +275,7 @@ export function BiaTacticoINV03() {
       </section>
 
       {/* ── § 3.1 Identificación del proceso ────────────────────── */}
-      <section id="inv03-identificacion" className="scroll-mt-24">
+      <section id="inv03-identificacion" className="scroll-mt-36">
         <SectionEyebrow label="Identificación del proceso" />
         <Reveal>
           <DataTable
@@ -300,7 +300,7 @@ export function BiaTacticoINV03() {
       </section>
 
       {/* ── § 3.2 Tipo y nivel de impacto ────────────────────────── */}
-      <section id="inv03-impacto" className="scroll-mt-24">
+      <section id="inv03-impacto" className="scroll-mt-36">
         <SectionEyebrow label="Tipo y nivel de impacto al negocio" />
         <Reveal>
           <div className="mb-4 flex flex-wrap gap-4">
@@ -350,7 +350,7 @@ export function BiaTacticoINV03() {
       </section>
 
       {/* ── § 3.2 Notas de interpretación ───────────────────────── */}
-      <section id="inv03-notas" className="scroll-mt-24">
+      <section id="inv03-notas" className="scroll-mt-36">
         <SectionEyebrow label="Notas de interpretación" />
         <Reveal>
           <ul className="flex max-w-[72ch] flex-col gap-3">
@@ -368,7 +368,7 @@ export function BiaTacticoINV03() {
       </section>
 
       {/* ── § 3.3 MTPoD / MAO ───────────────────────────────────── */}
-      <section id="inv03-mtpod" className="scroll-mt-24">
+      <section id="inv03-mtpod" className="scroll-mt-36">
         <SectionEyebrow label="Identificación del máximo periodo de interrupción tolerable (MTPoD / MAO)" />
         <Reveal>
           <div className="rounded-2xl border border-border-subtle bg-surface-base p-6 sm:p-8">
@@ -389,7 +389,7 @@ export function BiaTacticoINV03() {
       </section>
 
       {/* ── § 3.4 RTO ───────────────────────────────────────────── */}
-      <section id="inv03-rto" className="scroll-mt-24">
+      <section id="inv03-rto" className="scroll-mt-36">
         <SectionEyebrow label="Identificación del tiempo de recuperación objetivo (RTO)" />
         <Reveal>
           <div className="rounded-2xl border border-border-subtle bg-surface-base p-6 sm:p-8">
@@ -402,7 +402,7 @@ export function BiaTacticoINV03() {
       </section>
 
       {/* ── § 3.5 MBCO ──────────────────────────────────────────── */}
-      <section id="inv03-mbco" className="scroll-mt-24">
+      <section id="inv03-mbco" className="scroll-mt-36">
         <SectionEyebrow label="Objetivo de continuidad del negocio mínimo (MBCO)" />
         <Reveal>
           <div className="overflow-hidden rounded-2xl border border-border-subtle bg-border-subtle">
@@ -421,7 +421,7 @@ export function BiaTacticoINV03() {
       </section>
 
       {/* ── § 3.7 Continuidad operacional ───────────────────────── */}
-      <section id="inv03-continuidad" className="scroll-mt-24">
+      <section id="inv03-continuidad" className="scroll-mt-36">
         <SectionEyebrow label="Opciones actuales de continuidad operacional" />
         <Reveal>
           <DataTable
@@ -440,7 +440,7 @@ export function BiaTacticoINV03() {
       </section>
 
       {/* ── § 3.9 Recibe ─────────────────────────────────────────── */}
-      <section id="inv03-recibe" className="scroll-mt-24">
+      <section id="inv03-recibe" className="scroll-mt-36">
         <SectionEyebrow label="Procesos / actividades de los que INV_03 recibe información" />
         <Reveal>
           <p className="mb-6 max-w-[72ch] text-[14px] leading-[1.7] text-text-secondary">
@@ -466,7 +466,7 @@ export function BiaTacticoINV03() {
       </section>
 
       {/* ── § 3.10 Envía ─────────────────────────────────────────── */}
-      <section id="inv03-envia" className="scroll-mt-24">
+      <section id="inv03-envia" className="scroll-mt-36">
         <SectionEyebrow label="Procesos / actividades a los que INV_03 envía información" />
         <Reveal>
           <DataTable
