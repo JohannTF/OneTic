@@ -7,7 +7,7 @@ export const equipo: TeamMember[] = [
     id: "beltran",
     fullName: "Beltrán Vidal Sol Jarelly",
     shortName: "Sol Beltrán",
-    photo: PLACEHOLDER_PHOTO,
+    photo: "/images/authors/sol-beltran.png",
     role: "Ingeniería en Sistemas Computacionales",
   },
   {
