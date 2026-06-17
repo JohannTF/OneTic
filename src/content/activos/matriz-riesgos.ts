@@ -313,3 +313,40 @@ export const analisRiesgos: AnalisRiesgo[] = [
     controles: "Definir política de ciclo de vida de activos con criterios técnicos documentados (antigüedad, fallas recurrentes, soporte del fabricante), validar plan con dirección",
   },
 ];
+import type { Riesgo, Clasificacion, NivelRiesgo } from "@/types/riesgos";
+
+function probabilidadDesdeValor2(valor2: number): Clasificacion {
+  if (valor2 <= 1) return "Baja";
+  if (valor2 === 2) return "Media";
+  return "Alta";
+}
+
+function impactoDesdeCia(confidencialidad: number, integridad: number, disponibilidad: number): Clasificacion {
+  const sumaCia = confidencialidad + integridad + disponibilidad;
+  if (sumaCia <= 7) return "Baja";
+  if (sumaCia <= 11) return "Media";
+  return "Alta";
+}
+
+function nivelGlobalDesdeValor1(valor1: string, totalValor: number): NivelRiesgo {
+  if (totalValor >= 13) return "Crítico";
+  if (valor1 === "Alto") return "Alto";
+  if (valor1 === "Medio") return "Medio";
+  return "Bajo";
+}
+
+function procesoCorto(idProceso: string): string {
+  // "SNB_MAN_01" -> "MAN_01"
+  return idProceso.replace(/^SNB_/, "");
+}
+
+export const riesgos: Riesgo[] = analisRiesgos.map((r) => ({
+  id: r.idActivo,
+  proceso: procesoCorto(r.idProceso),
+  descripcion: r.amenazas,
+  causa: r.vulnerabilidades,
+  probabilidad: probabilidadDesdeValor2(r.valor2),
+  impacto: impactoDesdeCia(r.confidencialidad, r.integridad, r.disponibilidad),
+  nivelGlobal: nivelGlobalDesdeValor1(r.valor1, r.totalValor),
+  mitigacion: r.controles,
+}));

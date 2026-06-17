@@ -46,3 +46,14 @@ export type AnalisRiesgo = {
   eventoAmenaza: string;
   controles: string;
 };
+// Riesgo consolidado para la matriz de riesgos (tabla resumen)
+export type Riesgo = {
+  id: string;
+  proceso: string;
+  descripcion: string;
+  causa: string;
+  probabilidad: Clasificacion;
+  impacto: Clasificacion;
+  nivelGlobal: NivelRiesgo;
+  mitigacion: string;
+};
