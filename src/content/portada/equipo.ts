@@ -14,7 +14,7 @@ export const equipo: TeamMember[] = [
     id: "pardo",
     fullName: "Isaac Pardo Gómez ",
     shortName: "Isaac Pardo",
-    photo: PLACEHOLDER_PHOTO,
+    photo: "/images/authors/isaac-pardo.jpeg",
     role: "Ingeniería en Sistemas Computacionales",
   },
   {
