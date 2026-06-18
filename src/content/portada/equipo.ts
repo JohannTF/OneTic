@@ -21,7 +21,7 @@ export const equipo: TeamMember[] = [
     id: "trejo",
     fullName: "Johann Daniel Trejo Flores",
     shortName: "Johann Trejo",
-    photo: PLACEHOLDER_PHOTO,
+    photo: "/images/authors/trejo-flores.png", 
     role: "Ingeniería en Sistemas Computacionales",
   },
 ];
